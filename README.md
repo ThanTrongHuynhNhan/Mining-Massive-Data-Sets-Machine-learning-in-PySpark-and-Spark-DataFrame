@@ -71,6 +71,7 @@ df = spark.createDataFrame(data=data, schema = columns)
 df.show()
 ```
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Sau khi thực hiện xong đoạn code trên, chương trình sẽ in ra màn hình kết quả sau:</p>
+
 ```python
 +--------+---------+-----------+--------+----------+------+------+
 |      id|firstname| middlename|lastname|     birth|gender|salary|
