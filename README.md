@@ -39,10 +39,14 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
 #### 3. Các định dạng tệp được hỗ trợ
 <div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; DataFrame là một bộ API có bậc cao hơn RDD, khá đa dạng và phổ biến hỗ trợ việc đọc và ghi một số định dạng tệp như:
  <ul align="justify">
-  <tab = 2cm> <li>csv</li>
+  <li>csv</li>
   <li>tsv</li>
   <li>xml</li>
   <li>Avro</li>
   <li>Parquet</li>
   <li>text - txt,...</li></ul>
 </div>
+
+### IV. Cách create một dataframe và một số thao tác đơn giản
+#### 1. DataFrame Creatin
+<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive Table hay Apache Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ. Nhưng thông thường để load được dữ liệu từ một datasets có sẵn, người ta thường dùng<em> createDataFrame</em></div>
