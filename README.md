@@ -39,10 +39,10 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
 #### 3. Các định dạng tệp được hỗ trợ
 <div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; DataFrame là một bộ API có bậc cao hơn RDD, khá đa dạng và phổ biến hỗ trợ việc đọc và ghi một số định dạng tệp như:
  <ul align="justify">
-  \tab<li>csv</li>
+  <li>csv</li>
   <li>tsv</li>
   <li>xml</li>
   <li>Avro</li>
   <li>Parquet</li>
-  <li>text - txt,...</li></br></ul>
+  <li>text - txt,...</li></ul>
 </div>
