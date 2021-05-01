@@ -49,4 +49,36 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
 
 ### IV. Cách create một dataframe và một số thao tác đơn giản
 #### 1. DataFrame Creation
-<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive Table hay Apache Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ. Nhưng thông thường để load được dữ liệu từ một datasets có sẵn, người ta thường dùng<em> createDataFrame()</em> để có thể load dữ liệu được khởi tạo hoặc từ datasets kết hợp với <em>show()</em> để hiển thị kết quả</div>
+<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive Table hay Apache Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ. Nhưng thông thường để load được dữ liệu từ một datasets có sẵn, người ta thường dùng<em> createDataFrame()</em> để có thể load dữ liệu được khởi tạo hoặc từ datasets kết hợp với <em>show()</em> để hiển thị kết quả. <br><br>
+ <b>&nbsp;&nbsp;&nbsp;&nbsp; *<u>Ví dụ </u>: Với dữ liệu được người dùng tạo trực tiếp </b>
+</div>
+
+```python
+import pyspark
+from pyspark import SparkConf, SparkContext
+from pyspark.sql import SparkSession
+import collections
+
+data = [('51800574','Nhan','Trong Huynh','Than','2000-10-18','M',2000),
+  ('51800903','Minh','Nhat','Pham','2000-02-12','M',2200),
+  ('51800886','Linh','Nhat','Nguyen','2000-09-01','M',2200),
+  ('51800904','Nam','Van','Ho','2000-05-01','M',1980),
+  ('51800631','Thong','Huy','Luu','2000-12-24','M',1900)
+]
+
+columns = ["id","firstname","middlename","lastname","birth","gender","salary"]
+df = spark.createDataFrame(data=data, schema = columns)
+df.show()
+```
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Sau khi thực hiện xong đoạn code trên, chương trình sẽ in ra màn hình kết quả sau:</p>
+```python
++--------+---------+-----------+--------+----------+------+------+
+|      id|firstname| middlename|lastname|     birth|gender|salary|
++--------+---------+-----------+--------+----------+------+------+
+|51800574|     Nhan|Trong Huynh|    Than|2000-10-18|     M|  2000|
+|51800903|     Minh|       Nhat|    Pham|2000-02-12|     M|  2200|
+|51800886|     Linh|       Nhat|  Nguyen|2000-09-01|     M|  2200|
+|51800904|      Nam|        Van|      Ho|2000-05-01|     M|  1980|
+|51800631|    Thong|        Huy|     Luu|2000-12-24|     M|  1900|
++--------+---------+-----------+--------+----------+------+------+
+```
