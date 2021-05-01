@@ -23,7 +23,7 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
   <li><b><em>Nguồn dữ liệu</em></b>: DataFrames có hỗ trợ cho nhiều định dạng và nguồn dữ liệu, chúng ta sẽ xem xét vấn đề này sau trong hướng dẫn Pyspark DataFrames này. Họ có thể lấy dữ liệu từ nhiều nguồn khác nhau.</li></br>
 </ul>
 
-### III.	Các tính năng của DataFrame và nguồn dữ liệu PySpark
+### III.	Các tính năng của DataFrame, nguồn dữ liệu PySpark và các định dạng tệp được hỗ trợ
 #### 1.	Các tính năng
 <p align="center"><img src ="https://user-images.githubusercontent.com/77878466/106385562-81c84f80-6403-11eb-9a1d-37f785ef7d23.png" width="50%"/></p>
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; DataFrame được phân phối trong tự nhiên, làm cho nó trở thành một cấu trúc dữ liệu có khả năng chịu lỗi và có tính khả dụng cao.</p>
@@ -35,3 +35,14 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
 #### 2. Nguồn dữ liệu PySpark
 <p align="center"><img src ="https://user-images.githubusercontent.com/77878466/106385563-85f46d00-6403-11eb-916a-5bbcb6e25131.png" width="50%"/></p>
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML  hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive hoặc Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ.</p>
+
+#### 3. Các định dạng tệp được hỗ trợ
+<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; DataFrame là một bộ API có bậc cao hơn RDD, khá đa dạng và phổ biến hỗ trợ việc đọc và ghi một số định dạng tệp như:
+ <ul align="justify">
+  <li>csv</li></br>
+  <li>tsv</li></br>
+  <li>xml</li></br>
+  <li>Avro</li></br>
+  <li>Parquet</li></br>
+  <li>text - txt,...</li></br></ul>
+</div>
