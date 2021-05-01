@@ -48,5 +48,5 @@ Learn about machine learning, the mllib library in pyspark, and the dataframe sp
 </div>
 
 ### IV. Cách create một dataframe và một số thao tác đơn giản
-#### 1. DataFrame Creatin
-<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive Table hay Apache Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ. Nhưng thông thường để load được dữ liệu từ một datasets có sẵn, người ta thường dùng<em> createDataFrame</em></div>
+#### 1. DataFrame Creation
+<div align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Dữ liệu có thể được tải vào thông qua tệp CSV, JSON, XML hoặc tệp Parquet. Nó cũng có thể được tạo bằng cách sử dụng RDD hiện có và thông qua bất kỳ cơ sở dữ liệu nào khác, như Hive Table hay Apache Cassandra . Nó cũng có thể lấy dữ liệu từ HDFS hoặc hệ thống tệp cục bộ. Nhưng thông thường để load được dữ liệu từ một datasets có sẵn, người ta thường dùng<em> createDataFrame()</em> để có thể load dữ liệu được khởi tạo hoặc từ datasets kết hợp với <em>show()</em> để hiển thị kết quả</div>
