@@ -181,19 +181,128 @@ root
 
 #### 2. Một số công cụ sử dụng Spark.Mllib
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Spark.Mllib là API học máy chính cho Spark. Thư viện Spark.Mllib cung cấp một API cấp cao hơn được xây dựng trên DataFrames để xây dựng các pipeline cho machine learning. Một số công cụ như:</p>
+
  - Thuật toán ML
  - Featurization
  - Pipelines
- - Sự ổn định
- - Tiện ích
+ - Persistence
+ - Utilities
 
-##### 2.1 Thuật toán Mechine Learning (ML)
+#### 2.1 Thuật toán Mechine Learning (ML)
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Các thuật toán ML chính là cốt lõi của MLlib. Chúng bao gồm các thuật toán học tập phổ biến như phân loại, hồi quy, phân cụm và lọc cộng tác. MLlib chuẩn hóa các API để giúp kết hợp nhiều thuật toán vào một đường dẫn hoặc quy trình làm việc dễ dàng hơn. Các khái niệm chính là API đường ống, trong đó khái niệm đường ống được lấy cảm hứng từ dự án scikit-learning.</p>
 
  - <em>Transformer</em>: là một thuật toán biển đổi một Dataframe thành một Dataframe khác. Về mặt lý thuyết nó thực hiện một phương thức transform() dùng để chuyển đỏi một Dataframe thành một Dataframe khác bằng cách thêm một hoặc nhiều cột.
 
  - <em>Estimator</em>: là một thuật toán phù hợp trên Dataframe để tạo Transformer. Về mặt kỹ thuật, Estimator triển khai phương thức <em>fit()</em> và chấp nhận DataFrame tạo ra một mô hình là một transformer.
 
+#### 2.2 Featurization
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Featurization bao gồm trích xuất, biến đổi, giảm kích thước và lựa chọn:</p>
+
+ - Tính năng trích xuất sẽ được trích xuất từ dữ liệu thô.
+ - Tính năng biến đổi bao gồm mở rộng, tái tạo và chỉnh sửa.
+ - Tính năng lựa chọn liên quan đến việc chọn một tập hợp con các tính năng cần thiết từ một tập hợp lớn các tính năng.
+
+#### 2.3 Pipelines
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Pipelines giúp kết nối các Estimator và Transformer lại với nhau theo một quy trình của làm việc của ML. Đồng thời nó cũng cung cấp công cụ để đánh giá, xây dựng và điều chỉnh ML pipelines.</p>
+
+#### 2.4 Persistence
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Persistence giúp kết nối các Estimator và Transformer lại với nhau theo một quy trình của làm việc của ML. Đồng thời nó cũng cung cấp công cụ để đánh giá, xây dựng và điều chỉnh ML pipelines.
+
+#### 2.5 Utilities
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Các Utility cho đại số tuyến tính, thống kê và xử lý dữ liệu. Ví dụ mllib.linalg hỗ trợ cho đại số tuyến tính.
+
+#### 3. Các phương thức thư viện mllib cung cấp
+<p align="center"><img src ="https://user-images.githubusercontent.com/77878466/116785066-cd050380-aac1-11eb-82eb-84910acdf77b.png" width="90%"/></p>
+
+### III. Sử dụng thư viện Mllib với ngôn ngữ python
+#### 1. Hồi quy tuyến tính
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Minh họa cách load dữ liệu training, phân tích cú pháp nó dưới dạng RDD của LabeledPoint. Sau đó chúng ta sẽ sử dụng LinearRegressionWithSGD để xây dựng một mô hình tuyến tính đơn giản để dự đoán các giá trị label. Chúng ta sẽ tính toán sai số trung bình bình phương (Mean Squared Error) ở cuối để đánh giá mức độ phù hợp (goodness of fit)</p>
+
+```python
+from pyspark.mllib.regression import LinearRegressionWithSGD
+from numpy import array
+
+# Load and phân tích data
+data = sc.textFile("mllib/data/ridge-data/lpsa.data")
+parsedData = data.map(lambda line: array([float(x) for x in line.replace(',', ' ').split(' ')]))
+
+# Xây dựng mô hình
+model = LinearRegressionWithSGD.train(parsedData)
+
+# Đánh giá mô hình trên tập dữ liệu train
+valuesAndPreds = parsedData.map(lambda point: (point.item(0),
+        model.predict(point.take(range(1, point.size)))))
+MSE = valuesAndPreds.map(lambda (v, p): (v - p)**2).reduce(lambda x, y: x + y)/valuesAndPreds.count()
+print("Mean Squared Error = " + str(MSE))
+```
+
+#### 2. Phân loại nhị phân
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Ví dụ sau đây sẽ hướng dẫn chúng ta load tập dữ liệu, xây dựng mô hình hồi quy Logistic và đưa ra dự đoán kết quả mô hình để tính toán lỗi huấn luyện.</p>
+
+```python
+from pyspark.mllib.classification import LogisticRegressionWithSGD
+from numpy import array
+
+# Load và phân tích data
+data = sc.textFile("mllib/data/sample_svm_data.txt")
+parsedData = data.map(lambda line: array([float(x) for x in line.split(' ')]))
+model = LogisticRegressionWithSGD.train(parsedData)
+
+# Xây dựng mô hình
+labelsAndPreds = parsedData.map(lambda point: (int(point.item(0)),
+        model.predict(point.take(range(1, point.size)))))
+
+# Đánh gia mô hình trên tập dữ liệu train
+trainErr = labelsAndPreds.filter(lambda (v, p): v != p).count() / float(parsedData.count())
+print("Training Error = " + str(trainErr))
+```
+
+#### 3. Phân cụm
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Sau khi tải và phân tích dữ liệu, chúng ta sử dụng đối tượng KMeans để phân cụm dữ liệu thành hai cụm. Số lượng các cụm được chuyển đến thuật toán. Sau đó, chúng ta tính toán (Within Set Sum of Squared Error - WSSSE). Ta có thể giảm số đo sai số này bằng cách tăng k.</p>
+
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Ngoài ra, chúng ta cũng có thể sử dụng RidgeRegressionWithSGD hoặc LassoWithSGD và so sánh các lỗi trung bình bình phương (Mean Squared Error) khi huấn luyện.</p>
+
+```python
+from pyspark.mllib.clustering import KMeans
+from numpy import array
+from math import sqrt
+
+# Load và phân tích data
+data = sc.textFile("kmeans_data.txt")
+parsedData = data.map(lambda line: array([float(x) for x in line.split(' ')]))
+
+# Xây dựng mô hình (phân cụm data)
+clusters = KMeans.train(parsedData, 2, maxIterations=10,
+        runs=30, initialization_mode="random")
+
+# Đánh giá phân cụm dựa trên Within Set Sum of Squared Errors
+def error(point):
+    center = clusters.centers[clusters.predict(point)]
+    return sqrt(sum([x**2 for x in (point - center)]))
+
+WSSSE = parsedData.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+print("Within Set Sum of Squared Error = " + str(WSSSE))
+```
+
+### 4. Naive Bayes
+<p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; MLlib hỗ trợ Bayes ngây thơ đa thức , thường được sử dụng để phân loại tài liệu. NaiveBayes thực hiện Bayes ngây thơ đa thức. Nó lấy một RDD của LabeledPoint và một tham số làm mịn tùy chọn làm lambdađầu vào và xuất ra một NaiveBayesModel , có thể được sử dụng để đánh giá và dự đoán.</p>
+
+```python
+from pyspark.mllib.regression import LabeledPoint
+from pyspark.mllib.classification import NaiveBayes
+
+# an RDD of LabeledPoint
+data = sc.parallelize([
+  LabeledPoint(0.0, [0.0, 0.0])
+  ... # more labeled points
+])
+
+# Train a naive Bayes model.
+model = NaiveBayes.train(data, 1.0)
+
+# Make prediction.
+prediction = model.predict([0.0, 0.0])
+```
 
 ## Phần 3: Tài liệu tham khảo
 &nbsp;&nbsp;&nbsp;&nbsp; 1.	http://itechseeker.com/tutorials/apache-spark/lap-trinh-spark-voi-scala/spark-sql-dataset-va-dataframes/
@@ -207,3 +316,11 @@ root
 &nbsp;&nbsp;&nbsp;&nbsp; 5. https://www.edureka.co/blog/pyspark-dataframe-tutorial/#what
 
 &nbsp;&nbsp;&nbsp;&nbsp; 6. https://sparkbyexamples.com/pyspark-tutorial/
+
+&nbsp;&nbsp;&nbsp;&nbsp; 7. https://www.analyticsvidhya.com/blog/2020/11/introduction-to-spark-mllib-for-big-data-and-machine-learning/?fbclid=IwAR2jdRLGb1hKqsuHrmOYDCiGTpdbD20VWrSMAjSVxUlwbPmIl3s0RaApaUw
+
+&nbsp;&nbsp;&nbsp;&nbsp; 8. https://ichi.pro/vi/spark-for-machine-learning-su-dung-python-va-mllib-74075263465224?fbclid=IwAR1mcgL68P3_A3ywD1-PhKNTAbnhCQO1mtsdJJgCLIJzhDjzovJBmKVDNus
+
+&nbsp;&nbsp;&nbsp;&nbsp; 9. https://spark.apache.org/docs/0.9.0/mllib-guide.html
+
+&nbsp;&nbsp;&nbsp;&nbsp; 10. https://www.baeldung.com/spark-mlib-machine-learning
