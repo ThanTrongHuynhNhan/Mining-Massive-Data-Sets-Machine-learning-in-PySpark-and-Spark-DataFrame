@@ -82,7 +82,7 @@ df.show()
 |51800631|    Thong|        Huy|     Luu|2000-12-24|     M|  1900|
 +--------+---------+-----------+--------+----------+------+------+
 ```
-<p align="justify"><b>&nbsp;&nbsp;&nbsp;&nbsp; *<u>Ví dụ </u>: <em>Với dữ liệu được load từ dataset (file dữ liệu có sẵn)</em></b> - <em> link datasets: https://archive.ics.uci.edu/ml/machine-learning-databases/car/ </em></p>
+<p align="justify"><b>&nbsp;&nbsp; *<u>Ví dụ </u>: <em>Với dữ liệu được load từ dataset (file dữ liệu có sẵn)</em></b> - <em> link datasets: https://archive.ics.uci.edu/ml/machine-learning-databases/car/ </em></p>
 
 <p align="justify"> &nbsp;&nbsp;&nbsp;&nbsp; Đọc dữ liệu từ file <em>ecoli.data</em> dưới dạng csv thông qua câu lệnh <em>spark.read.csv()</em>
 
